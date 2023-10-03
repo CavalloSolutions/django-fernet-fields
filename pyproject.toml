@@ -4,9 +4,9 @@ version = "0.1.0"
 description = "Fernet-encrypted model fields for Django"
 authors = ["Brian Werth <brian.werth@Cavallo.com>"]
 license = "BSD-3"
-packages = [{include = "fernet-fields"}]
+packages = [{include = "fernet_fields"}]
 include = [
-    "fernet-fields"
+    "fernet_fields"
 ]
 
 [tool.poetry.dependencies]

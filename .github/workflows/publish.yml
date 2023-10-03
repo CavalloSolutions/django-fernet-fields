@@ -1,0 +1,66 @@
+name: Publish Package
+
+on:
+  push:
+    branches:
+      - main
+  # for manual testing
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags' 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.10.6'
+      - name: Run image
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: '1.3.1'
+      - name: poetry config
+        run: poetry config virtualenvs.in-project true
+      - name: Restore .venv from Cache
+        uses: actions/cache@v3.0.4
+        with:
+          path: ./.venv
+          key: v1-poetry-${{ hashFiles('poetry.lock') }}
+      - name: Poetry Install
+        run: poetry install
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        with:
+          useConfigFile: true
+          configFilePath: ".github/gitversion.yml"
+      - name: Version
+        run: sed -i "s/0.1.0/$GITVERSION_MAJORMINORPATCH/g" pyproject.toml
+      - name: 'Build Package'
+        run: poetry build
+      - name: Upload to PythonPackages
+        run: |
+          poetry run python -m twine upload dist/* --config-file .pypirc
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASS }}
+          TWINE_REPOSITORY: python-packages
+      - name: Tag Repo
+        run: |
+          git config --global user.email "auto@github"
+          git config --global user.name "Github Automation"
+          git tag -a "v$GITVERSION_MAJORMINORPATCH" -m "Release $GITVERSION_MAJORMINORPATCH"
+          git push --tags

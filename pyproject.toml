@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "django-fernet-fields"
+name = "cav-django-fernet-fields"
 version = "0.1.0"
 description = "Fernet-encrypted model fields for Django"
 authors = ["Brian Werth <brian.werth@Cavallo.com>"]

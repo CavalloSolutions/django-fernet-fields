@@ -1,4 +1,0 @@
-[run]
-source = fernet_fields
-omit = fernet_fields/test/*
-branch = 1

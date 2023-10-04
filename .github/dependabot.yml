@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    registries:
+      - azure
+    schedule:
+      interval: "weekly"
+      timezone: "America/Detroit"
+    open-pull-requests-limit: 8
+    insecure-external-code-execution: allow
+    reviewers:
+      - "cavalloBrianWerth"
+      - "mattsmoker"

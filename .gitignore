@@ -6,3 +6,4 @@ dist/
 .coverage
 fernet_fields/test/settings/testdb.sqlite
 *.pyc
+.venv/

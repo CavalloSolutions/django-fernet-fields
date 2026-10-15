@@ -1,24 +1,30 @@
-[tool.poetry]
+[project]
 name = "cav-django-fernet-fields"
 version = "0.1.0"
 description = "Fernet-encrypted model fields for Django"
-authors = ["Brian Werth <brian.werth@Cavallo.com>"]
-license = "BSD-3"
-packages = [{include = "fernet_fields"}]
-include = [
-    "fernet_fields"
+authors = [{ name = "Brian Werth", email = "brian.werth@Cavallo.com" }]
+requires-python = ">=3.10,<4.0"
+license = "BSD-3-Clause"
+license-files = ["LICENSE.txt"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = ["django>=4.2.5,<5.0.0"]
+
+[dependency-groups]
+dev = [
+    "black>=22.12.0,<23",
+    "flake8>=6.0.0,<7",
+    "pytest>=7.1,<8",
+    "twine>=6.1.0,<7",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-django = "^4.2.5"
-
-[tool.poetry.group.dev.dependencies]
-black = "^22.12.0"
-flake8 = "^6.0.0"
-pytest = "^7.1"
-twine = "^4.0.2"
+[tool.uv.build-backend]
+module-name = "fernet_fields"
+module-root = ""
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
